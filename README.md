@@ -9,7 +9,7 @@ Additional python libraries and its current version used:
 
 To compute the Pareto solutions, run the plan function in the orderPlanner.py
 
--Input 
+- Input
   - param: problem parameters in dictionary format
   - R: number of replication
   - factPrefReq: dictates if factory level performace is required
