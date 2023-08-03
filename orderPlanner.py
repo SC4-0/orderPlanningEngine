@@ -55,7 +55,7 @@ def plan(param, R=20, T=20, factPrefReq=True):
                 factPerf[i, (f * 2) + 1] = aveUnUtilHr[f] / R
 
     return sol, scPerf, factPerf
-
+'''
 #setting up problem parameters
 nFact, nCust, nPrdt = 3, 3, 2
 tLT = np.ones((nFact, nCust))
@@ -73,3 +73,4 @@ param = {"nF": nFact, "nC": nCust, "nP": nPrdt,
          "devD": np.array([[0.3, 0.2, 0.2], [0.1, 0.1, 0.1]])}
 
 sol, scPerf, factPerf = plan(param)
+'''
