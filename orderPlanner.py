@@ -18,7 +18,7 @@ import numpy as np
 import model as mop
 import solve as planner
 
-def plan(param, R=20, T=20, factPrefReq=True):
+def plan(param, R=20, T=20, factPrefReq=True, allocRange=True):
     #initialise the oreder problem
     problem = mop.AllocProblem(param, R)
     x, scPerf = planner.runTransferOpt(problem, 50, 20)
@@ -53,9 +53,25 @@ def plan(param, R=20, T=20, factPrefReq=True):
             for f in range(param["nF"]):
                 factPerf[i, f * 2] = aveLT[f] / R
                 factPerf[i, (f * 2) + 1] = aveUnUtilHr[f] / R
+    if (allocRange):
+        sol_range = np.empty((x.shape[0], 2*param["nF"]*param["nC"]+param["nF"]))
+        for c in range(param["nC"]):
+            for f in range(param["nF"]):
+                idx_range = 2 * (c*param["nF"] + f)
+                idx_sol = c*param["nF"] + f
+                #sol_range[:, idx] - lower bound
+                #sol_range[:, idx+1] - upper bound
+                if f == 0:
+                    sol_range[:, idx_range] = 0
+                    sol_range[:, idx_range+1] = sol[:, idx_sol]
+                else:
+                    sol_range[:, idx_range] = sol_range[:, idx_range-1]
+                    sol_range[:, idx_range + 1] = sol[:, idx_sol] + sol_range[:, idx_range-1]
+        sol_range[:, 2*param["nF"]*param["nC"]: 2*param["nF"]*param["nC"]+param["nF"]] = sol[:, param["nF"]*param["nC"]:]
+        sol = sol_range.copy()
 
     return sol, scPerf, factPerf
-'''
+
 #setting up problem parameters
 nFact, nCust, nPrdt = 3, 3, 2
 tLT = np.ones((nFact, nCust))
@@ -73,4 +89,3 @@ param = {"nF": nFact, "nC": nCust, "nP": nPrdt,
          "devD": np.array([[0.3, 0.2, 0.2], [0.1, 0.1, 0.1]])}
 
 sol, scPerf, factPerf = plan(param)
-'''
