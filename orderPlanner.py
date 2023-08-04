@@ -7,11 +7,19 @@ optional input:
 1) R - number of replications;
 2) T: planning horizon;
 3) factPrefReq: dictates if factory level performace is required
+4) allocRange: if true converts the solution to a min and max range
 
 output:
-1) sol, 20 by (num of fact * num of cust + number of fact)
+1a) sol, 20 by (num of fact * num of cust + number of fact)
+1b) sol, 20 by (2*num of fact * num of cust + number of fact)
 2) scPerf, 20 by 2 (average fulfillment Time, average UnUtilised Hr) - SC lvl performance
 3) factPerf, 20 by (2 * num fact) - fact lvl performance
+4) unutilCapPref, 20 by 1 - preference value from 0 to 1 on the unutilised capacity
+5) perfCat, 20 by 1 - categorises the solution into the following 4 categories
+- 0, Short Order Fulfilment Time with Higher Unutilized Production Capacity
+- 1, Mid Order Fulfilment Time with Slightly Higher Unutilized Production Capacity
+- 2, Mid Unutilized Production Capacity with Slightly Longer Order Fulfilment Time
+- 3, Low Unutilized Production Capacity with Longer Order Fulfilment Time
 """
 
 import numpy as np
@@ -70,8 +78,19 @@ def plan(param, R=20, T=20, factPrefReq=True, allocRange=True):
         sol_range[:, 2*param["nF"]*param["nC"]: 2*param["nF"]*param["nC"]+param["nF"]] = sol[:, param["nF"]*param["nC"]:]
         sol = sol_range.copy()
 
-    return sol, scPerf, factPerf
+        unutilCapPref, perfCat = np.linspace(0, 1, num=x.shape[0]), np.empty(x.shape[0])
+        sortIdx = np.argsort(np.argsort(-scPerf[:,1]))
+        unutilCapPref = unutilCapPref[sortIdx]
 
+        binSize = 4/ (x.shape[0]-1) #4 categories
+        for i in range(x.shape[0]):
+            if unutilCapPref[i] <= binSize: perfCat[i] = 0 # Short Order Fulfilment Time with Higher Unutilized Production Capacity
+            elif unutilCapPref[i] <= 2*binSize: perfCat[i] = 1 # Mid Order Fulfilment Time with Slightly Higher Unutilized Production Capacity
+            elif unutilCapPref[i] <= 3*binSize: perfCat[i] = 2 # Mid Unutilized Production Capacity with Slightly Longer Order Fulfilment Time
+            else: perfCat[i] = 3 # Low Unutilized Production Capacity with Longer Order Fulfilment Time
+
+    return sol, scPerf, factPerf, unutilCapPref, perfCat
+'''
 #setting up problem parameters
 nFact, nCust, nPrdt = 3, 3, 2
 tLT = np.ones((nFact, nCust))
@@ -88,4 +107,5 @@ param = {"nF": nFact, "nC": nCust, "nP": nPrdt,
          #"devD": np.array([[0.2, 0.2, 0.2], [0.2, 0.2, 0.2]])}
          "devD": np.array([[0.3, 0.2, 0.2], [0.1, 0.1, 0.1]])}
 
-sol, scPerf, factPerf = plan(param)
+sol, scPerf, factPerf, unutilCapPref, perfCat = plan(param)
+'''

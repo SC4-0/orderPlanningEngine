@@ -67,14 +67,14 @@ x = x3[-1]
 alloc, minPHr = problem.decode(x)
 aveUnUtilHr, aveLT = {}, {}
 for f in range(param["nF"]): aveUnUtilHr[f], aveLT[f] = 0, 0
-print()
+#print()
 np.random.seed(20)
 for f in problem.factory: f.reset()
 projDemandPlan = problem.simDemand(50)  # sample demand from distribution
-# print()
-completedOrderPlan = problem.simPlan(projDemandPlan, alloc, minPHr, 50)  # simulate planning scenarios
+#print()
+completedOrderPlan = problem.simPlan(projDemandPlan, alloc, minPHr, 50)  # simulate actual scenarios
 # compute perf
-_, _, dailyUnUtilHr, dailyOrderAlloc, dailyOrderFilled, dalilyOrderFillTime = problem.computePrefFact(completedOrderPlan) #sdfjkbnhsdjlk
+_, _, dailyUnUtilHr, dailyOrderAlloc, dailyOrderFilled, dalilyOrderFillTime = problem.computePrefFact(completedOrderPlan)
 
 import matplotlib.pyplot as plt
 #plt.scatter(y1[:,0], y1[:,1])
