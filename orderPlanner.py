@@ -14,7 +14,7 @@ output:
 1b) sol, 20 by (2*num of fact * num of cust + number of fact)
 2) scPerf, 20 by 2 (average fulfillment Time, average UnUtilised Hr) - SC lvl performance
 3) factPerf, 20 by (2 * num fact) - fact lvl performance
-4) unutilCapPref, 20 by 1 - preference value from 0 to 1 on the unutilised capacity
+4) unUtilCapPref, 20 by 1 - preference value from 0 to 1 on the unutilised capacity
 5) perfCat, 20 by 1 - categorises the solution into the following 4 categories
 - 0, Short Order Fulfilment Time with Higher Unutilized Production Capacity
 - 1, Mid Order Fulfilment Time with Slightly Higher Unutilized Production Capacity
