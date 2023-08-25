@@ -25,7 +25,7 @@ output:
 import numpy as np
 import model as mop
 import solve as planner
-
+#
 def plan(param, R=20, T=20, factPrefReq=True, allocRange=True):
     #initialise the oreder problem
     problem = mop.AllocProblem(param, R)
