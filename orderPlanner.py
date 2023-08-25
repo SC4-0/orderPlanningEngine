@@ -29,7 +29,7 @@ import solve as planner
 def plan(param, R=20, T=20, factPrefReq=True, allocRange=True):
     #initialise the oreder problem
     problem = mop.AllocProblem(param, R)
-    x, scPerf = planner.runTransferOpt(problem, 50, 20)
+    x, scPerf = planner.runTransferOpt(problem, 50, 20) #gen, pop
     #convert the allocation percentage
     sol = x.copy()
     for i in range(x.shape[0]):
