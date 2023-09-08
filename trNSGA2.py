@@ -9,7 +9,7 @@ Algorithm for transfer optimization based on NSGA2 and, -
 
 import numpy as np
 import random
-from MOEA_operators import SBX_crossover, polynomial_mutation, binary_tournament, crowding_distance, \
+from planning.MOEA_operators import SBX_crossover, polynomial_mutation, binary_tournament, crowding_distance, \
     sort_distance, fast_non_dominated_sort, check_bounds
 
 class trNSGA2():

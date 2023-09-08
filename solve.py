@@ -11,8 +11,8 @@ Interface to run various multi-objective optimization algorithms
 import numpy as np
 from pymoo.util.nds.non_dominated_sorting import NonDominatedSorting
 
-import trNSGA2 as trOpt
-import guassMixtureModel as gmm
+import planning.trNSGA2 as trOpt
+import planning.guassMixtureModel as gmm
 from pymoo.optimize import minimize
 from pymoo.algorithms.moo.nsga2 import NSGA2
 

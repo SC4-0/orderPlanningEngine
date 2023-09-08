@@ -10,8 +10,8 @@ Sample code to,
 import numpy as np
 from pymoo.indicators.hv import HV
 
-import model as mop
-import solve as planner
+import planning.model as mop
+import planning.solve as planner
 
 #setting up problem parameters
 nFact, nCust, nPrdt = 3, 3, 2

@@ -23,8 +23,8 @@ output:
 """
 
 import numpy as np
-import model as mop
-import solve as planner
+import planning.model as mop
+import planning.solve as planner
 #
 def plan(param, R=20, T=20, factPrefReq=True, allocRange=True):
     #initialise the oreder problem
@@ -84,13 +84,12 @@ def plan(param, R=20, T=20, factPrefReq=True, allocRange=True):
 
         binSize = 4/ (x.shape[0]-1) #4 categories
         for i in range(x.shape[0]):
-            if unutilCapPref[i] <= binSize: perfCat[i] = 0 # Short Order Fulfilment Time with Higher Unutilized Production Capacity
-            elif unutilCapPref[i] <= 2*binSize: perfCat[i] = 1 # Mid Order Fulfilment Time with Slightly Higher Unutilized Production Capacity
-            elif unutilCapPref[i] <= 3*binSize: perfCat[i] = 2 # Mid Unutilized Production Capacity with Slightly Longer Order Fulfilment Time
-            else: perfCat[i] = 3 # Low Unutilized Production Capacity with Longer Order Fulfilment Time
+            if unutilCapPref[i] <= binSize: perfCat[i] = 1 # Short Order Fulfilment Time with Higher Unutilized Production Capacity
+            elif unutilCapPref[i] <= 2*binSize: perfCat[i] = 2 # Mid Order Fulfilment Time with Slightly Higher Unutilized Production Capacity
+            elif unutilCapPref[i] <= 3*binSize: perfCat[i] = 3 # Mid Unutilized Production Capacity with Slightly Longer Order Fulfilment Time
+            else: perfCat[i] = 4 # Low Unutilized Production Capacity with Longer Order Fulfilment Time
 
     return sol, scPerf, factPerf, unutilCapPref, perfCat
-'''
 #setting up problem parameters
 nFact, nCust, nPrdt = 3, 3, 2
 tLT = np.ones((nFact, nCust))
@@ -107,5 +106,4 @@ param = {"nF": nFact, "nC": nCust, "nP": nPrdt,
          #"devD": np.array([[0.2, 0.2, 0.2], [0.2, 0.2, 0.2]])}
          "devD": np.array([[0.3, 0.2, 0.2], [0.1, 0.1, 0.1]])}
 
-sol, scPerf, factPerf, unutilCapPref, perfCat = plan(param)
-'''
+# sol, scPerf, factPerf, unutilCapPref, perfCat = plan(param)

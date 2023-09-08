@@ -10,7 +10,7 @@ Order planning optimization problem and defines
 import numpy as np
 from pymoo.core.problem import Problem
 #internal lib
-import dataObject as obj
+import planning.dataObject as obj
 
 class AllocProblem(Problem):
     def __init__(self, param, R):
